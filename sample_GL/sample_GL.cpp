@@ -1,6 +1,7 @@
 // sample_GL.cpp : アプリケーションのエントリ ポイントを定義します。
 // 参考：http://marupeke296.com/OGL_No1_Install.html
 #include "stdafx.h"
+#include "app/app.h"
 #include "Resource.h"
 
 #pragma comment(lib, "OpenGL32.lib")
@@ -108,6 +109,7 @@ TCHAR szTitle[MAX_LOADSTRING];					// タイトル バーのテキスト
 TCHAR szWindowClass[MAX_LOADSTRING];			// メイン ウィンドウ クラス名
 HGLRC glRC;
 MyOpenGL *my_gl = NULL;
+MyApp *my_app = NULL;
 
 // このコード モジュールに含まれる関数の宣言を転送します:
 ATOM				MyRegisterClass( HINSTANCE hInstance );
@@ -133,6 +135,7 @@ int APIENTRY _tWinMain( HINSTANCE hInstance,
 	MyRegisterClass( hInstance );
 
 	my_gl = new MyOpenGL();
+	my_app = new MyApp();
 
 	// アプリケーションの初期化を実行します:
 	if ( !InitInstance ( hInstance, nCmdShow, my_gl ) )
@@ -154,18 +157,21 @@ int APIENTRY _tWinMain( HINSTANCE hInstance,
 		{
 			my_gl->Begin();
 
-			glClearColor( 0.0f, 0.5f, 1.0f, 1.0f );
-			glClear( GL_COLOR_BUFFER_BIT );
-
-			glRectf( -0.5f, -0.5f, 0.5f, 0.5f );
+			bool result = my_app->Update();
 
 			my_gl->End();
+
+			if( !result )
+			{
+				break;
+			}
 		}
 	}
 	while( msg.message != WM_QUIT );
 
 	// 後処理
 
+	delete my_app;
 	delete my_gl;
 
 	return ( int ) msg.wParam;
