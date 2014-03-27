@@ -2,9 +2,10 @@
 
 class MyApp
 {
+	float angle_;
 public:
-	MyApp() {}
-	~MyApp() {}
+	MyApp();
+	~MyApp();
 
 	bool Update();
 };
