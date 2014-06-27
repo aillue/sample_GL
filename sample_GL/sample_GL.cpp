@@ -3,6 +3,7 @@
 #include "stdafx.h"
 #include "app/app.h"
 #include "Resource.h"
+#include <stdio.h> // fprintf
 
 #pragma comment(lib, "OpenGL32.lib")
 
@@ -74,6 +75,13 @@ public:
 		if ( !wglMakeCurrent( dc_, glRC_ ) )
 		{
 			return NO_DEVICE_CONTEXT;
+		}
+
+		// use GLEW
+		GLenum err = glewInit();
+		if ( err != GLEW_OK )
+		{
+			fprintf( stderr, "Error: %s\n", glewGetErrorString( err ) );
 		}
 
 		return OK;
